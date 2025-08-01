@@ -9,7 +9,8 @@ async function createHallsTable() {
       hall_capacity INT,
       hall_open_time TIME,
       hall_close_time TIME,
-      hall_photo VARCHAR(255)
+      hall_photo VARCHAR(255),
+      hall_desc VARCHAR(255)
     )
   `;
 
