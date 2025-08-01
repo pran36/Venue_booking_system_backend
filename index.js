@@ -2,17 +2,25 @@ const express = require("express");
 const app = express();
 require("dotenv").config();
 const userRoutes = require("./routes/userRoutes");
-const hallRoutes = require("./routes/hallRoutes");
+const venueRoutes = require("./routes/venueRoutes");
 const bookingRoutes = require("./routes/bookingRoutes");
-
-
+const snacksRoutes = require("./routes/snacksRoutes");
+const dinnerRoutes = require("./routes/dinnerRoutes");
+const addonRoutes = require("./routes/addonRoutes");
+const drinksRoutes = require("./routes/drinksRoutes");
+const paymentRoutes = require("./routes/paymentRoutes");
 
 app.use(express.json());
 
 // Routes
 app.use("/api/users", userRoutes);
 app.use("/api/bookings", bookingRoutes);
-app.use("/api/halls", hallRoutes);
+app.use("/api/venue", venueRoutes);
+app.use("/api/snacks", snacksRoutes);
+app.use("/api/dinners", dinnerRoutes);
+app.use("/api/addons", addonRoutes);
+app.use("/api/drinks", drinksRoutes);
+app.use("/api/payments", paymentRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
