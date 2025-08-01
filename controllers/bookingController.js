@@ -34,6 +34,7 @@ exports.createBooking = async (req, res) => {
     res.status(201).json({ message: "Booking created", booking_id: result.insertId });
   } catch (err) {
     res.status(500).json({ error: err.message });
+    console.log("Hello");
   }
 };
 
