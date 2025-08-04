@@ -1,21 +1,33 @@
 const db = require("../db");
 
-// Get all venues
+// Get all venues with their halls
 exports.getAllVenues = async (req, res) => {
   try {
-    const [rows] = await db.query("SELECT * FROM venues");
-    res.status(200).json(rows);
+    const [venues] = await db.query("SELECT * FROM venues");
+    const [halls] = await db.query("SELECT * FROM halls");
+
+    // Attach halls to their respective venues
+    const venuesWithHalls = venues.map(venue => ({
+      ...venue,
+      halls: halls.filter(hall => hall.venue_id === venue.venue_id)
+    }));
+
+    res.status(200).json(venuesWithHalls);
   } catch (error) {
     res.status(500).json({ message: "Failed to fetch venues", error: error.message });
   }
 };
 
-// Get venue by ID
+// Get venue by ID with its halls
 exports.getVenueById = async (req, res) => {
   try {
-    const [rows] = await db.query("SELECT * FROM venues WHERE venue_id = ?", [req.params.id]);
-    if (rows.length === 0) return res.status(404).json({ message: "Venue not found" });
-    res.status(200).json(rows[0]);
+    const [venues] = await db.query("SELECT * FROM venues WHERE venue_id = ?", [req.params.id]);
+    if (venues.length === 0) return res.status(404).json({ message: "Venue not found" });
+
+    const [halls] = await db.query("SELECT * FROM halls WHERE venue_id = ?", [req.params.id]);
+    const venue = { ...venues[0], halls };
+
+    res.status(200).json(venue);
   } catch (error) {
     res.status(500).json({ message: "Failed to fetch venue", error: error.message });
   }

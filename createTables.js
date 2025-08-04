@@ -19,33 +19,30 @@ async function createVenueTable() {
   try {
     await db.query(sql);
     console.log("'venues' table created or updated successfully.");
-    process.exit(0);
   } catch (err) {
     console.error("Error creating 'venues' table:", err.message);
-    process.exit(1);
   }
 }
 
 async function createUserTable() {
   const user = `
     CREATE TABLE IF NOT EXISTS users (
-  user_id INT AUTO_INCREMENT PRIMARY KEY,
-  user_name VARCHAR(100) NOT NULL,
-  password VARCHAR(255) NOT NULL,
-  role ENUM('admin', 'user') DEFAULT 'user',
-  phone_no VARCHAR(20),
-  address VARCHAR(255),
-  email VARCHAR(100) UNIQUE
-)
+      user_id INT AUTO_INCREMENT PRIMARY KEY,
+      user_name VARCHAR(100) NOT NULL,
+      password VARCHAR(255) NOT NULL,
+      role ENUM('admin', 'user') DEFAULT 'user',
+      phone_no VARCHAR(20),
+      address VARCHAR(255),
+      email VARCHAR(100) UNIQUE
+    )
   `;
 
   try {
     await db.query(user);
+    await db.query('ALTER TABLE users ADD COLUMN IF NOT EXISTS verification_token VARCHAR(64)');
     console.log("✅ 'Users' table created/updated successfully.");
-    process.exit(0);
   } catch (err) {
     console.error("❌ Error creating 'Users' table:", err.message);
-    process.exit(1);
   }
 }
 
@@ -79,15 +76,12 @@ async function createBookingTable() {
   try {
     await db.query(sql);
     console.log("✅ 'bookings' table created/updated successfully.");
-    process.exit(0);
   } catch (err) {
     console.error("❌ Error creating 'bookings' table:", err.message);
-    process.exit(1);
   }
 }
 
 createBookingTable();
-
 
 async function createSnacksTable() {
   const snacks = `
@@ -100,10 +94,8 @@ async function createSnacksTable() {
   try {
     await db.query(snacks);
     console.log("✅ 'snacks' table created/updated successfully.");
-    process.exit(0);
   } catch (err) {
     console.error("❌ Error creating 'snacks' table:", err.message);
-    process.exit(1);
   }
 }
 
@@ -120,10 +112,8 @@ async function createDinnerTable() {
   try {
     await db.query(dinner);
     console.log("✅ 'snacks' table created/updated successfully.");
-    process.exit(0);
   } catch (err) {
     console.error("❌ Error creating 'snacks' table:", err.message);
-    process.exit(1);
   }
 }
 
@@ -141,10 +131,8 @@ async function createAddonsTable() {
   try {
     await db.query(addons);
     console.log("✅ 'snacks' table created/updated successfully.");
-    process.exit(0);
   } catch (err) {
     console.error("❌ Error creating 'snacks' table:", err.message);
-    process.exit(1);
   }
 }
 
@@ -161,10 +149,8 @@ async function createDrinksTable() {
   try {
     await db.query(drinks);
     console.log("✅ 'snacks' table created/updated successfully.");
-    process.exit(0);
   } catch (err) {
     console.error("❌ Error creating 'snacks' table:", err.message);
-    process.exit(1);
   }
 }
 
@@ -173,25 +159,43 @@ createDrinksTable();
 async function createPaymentsTable() {
   const payment = `
     CREATE TABLE IF NOT EXISTS payments (
-  payment_id INT AUTO_INCREMENT PRIMARY KEY,
-  payment_name VARCHAR(100) NOT NULL,
-  user_name VARCHAR(100) NOT NULL,
-  amount DECIMAL(10, 2) NOT NULL,
-  gateway VARCHAR(100) NOT NULL,
-  success BOOLEAN DEFAULT FALSE,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
+      payment_id INT AUTO_INCREMENT PRIMARY KEY,
+      payment_name VARCHAR(100) NOT NULL,
+      user_name VARCHAR(100) NOT NULL,
+      amount DECIMAL(10, 2) NOT NULL,
+      gateway VARCHAR(100) NOT NULL,
+      success BOOLEAN DEFAULT FALSE,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
   `;
 
   try {
     await db.query(payment);
-    console.log("✅ 'snacks' table created/updated successfully.");
-    process.exit(0);
+    console.log("✅ 'payments' table created/updated successfully.");
   } catch (err) {
-    console.error("❌ Error creating 'snacks' table:", err.message);
-    process.exit(1);
+    console.error("❌ Error creating 'payments' table:", err.message);
   }
 }
 
 createPaymentsTable();
+
+async function createHallsTable() {
+  const createHallsTableSQL = `
+    CREATE TABLE IF NOT EXISTS halls (
+      hall_id INT AUTO_INCREMENT PRIMARY KEY,
+      venue_id INT NOT NULL,
+      hall_name VARCHAR(255) NOT NULL,
+      hall_capacity INT NOT NULL,
+      hall_photo VARCHAR(255),
+      FOREIGN KEY (venue_id) REFERENCES venues(venue_id) ON DELETE CASCADE
+    )
+  `;
+  try {
+    await db.query(createHallsTableSQL);
+    console.log("✅ 'halls' table created/updated successfully.");
+  } catch (err) {
+    console.error("❌ Error creating 'halls' table:", err.message);
+  }
+}
+
+createHallsTable();

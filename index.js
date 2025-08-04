@@ -9,6 +9,7 @@ const dinnerRoutes = require("./routes/dinnerRoutes");
 const addonRoutes = require("./routes/addonRoutes");
 const drinksRoutes = require("./routes/drinksRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
+const hallRoutes = require("./routes/hallRoutes");
 
 app.use(express.json());
 
@@ -21,6 +22,7 @@ app.use("/api/dinners", dinnerRoutes);
 app.use("/api/addons", addonRoutes);
 app.use("/api/drinks", drinksRoutes);
 app.use("/api/payments", paymentRoutes);
+app.use("/api/halls", hallRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
