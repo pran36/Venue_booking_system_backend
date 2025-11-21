@@ -81,7 +81,7 @@ const VenueCard = ({ venue }) => {
         <a 
             href={venueDetailPath} 
             onClick={(e) => navigateTo(venueDetailPath, e)} 
-            className="flex-col md:flex-row bg-white border border-gray-200 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 mb-6 p-4 md:p-6 group relative block no-underline"
+            className="flex flex-col md:flex-row bg-white border border-gray-200 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 mb-6 p-4 md:p-6 group relative no-underline"
         >
             
             {/* Image Section (Left) - md:w-1/3 forces it to the left 1/3 on desktop */}
