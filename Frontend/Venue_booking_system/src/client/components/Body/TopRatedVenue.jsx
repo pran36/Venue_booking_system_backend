@@ -96,7 +96,7 @@ export function TopRatedVenue() {
       {/* Section Header */}
       <div className="flex justify-between items-center mb-6 px-2 md:px-0">
         <h2 className="text-2xl font-bold text-gray-800">Top Rated Venues</h2>
-        <a href="#" className="text-blue-600 font-medium hover:text-blue-700 transition-colors flex items-center">
+        <a href="/VenueList" onClick={(e) => navigateTo(`/VenueList`, e) }className="text-blue-600 font-medium hover:text-blue-700 transition-colors flex items-center">
           View all
           <ChevronRight size={16} className="ml-1" />
         </a>
