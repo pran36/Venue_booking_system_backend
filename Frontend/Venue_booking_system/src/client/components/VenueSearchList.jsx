@@ -54,40 +54,47 @@ const parsePriceRange = (rangeString) => {
 // --- VenueCard Component ---
 
 const VenueCard = ({ venue }) => {
-    // The entire card links to the detail page
     const venueDetailPath = `/venue/${venue.id}`;
 
-    // Handler for the Heart button
     const handleFavoriteToggle = (e) => {
         e.preventDefault(); 
-        e.stopPropagation(); // CRITICAL: Stop event from triggering the parent <a>
+        e.stopPropagation(); // CRITICAL: Prevents navigation
         console.log(`Venue ${venue.id} added to wishlist!`);
     };
 
-    // Handler for the View Details button
     const handleViewDetailsClick = (e) => {
-        e.stopPropagation(); // CRITICAL: Stop event from triggering the parent <a> click handler
-        navigateTo(venueDetailPath, e); // Manually trigger navigation
+        e.stopPropagation(); // CRITICAL: Prevents navigation via the parent <a> click handler
+        navigateTo(venueDetailPath, e); 
     };
 
+    // Handler for thumbnail clicks (stops propagation)
+    const handleThumbnailClick = (e, url) => {
+        e.preventDefault(); 
+        e.stopPropagation(); 
+        console.log(`Clicked thumbnail: ${url}`);
+    };
+    
+    // The main container determines the layout:
+    // flex-col on mobile (stacking)
+    // md:flex-row on desktop (side-by-side)
     return (
-        // Wrap the entire card content in an anchor tag for navigation
         <a 
-            href={venueDetailPath} // Mock navigation URL
-            onClick={(e) => navigateTo(venueDetailPath, e)} // Use navigateTo to simulate router
-            className="flex-col md:flex-row bg-white border border-gray-200 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 mb-6 p-4 md:p-6 group relative block no-underline"
+            href={venueDetailPath} 
+            onClick={(e) => navigateTo(venueDetailPath, e)} 
+            className="flex flex-col md:flex-row bg-white border border-gray-200 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 mb-6 p-4 md:p-6 group relative block no-underline"
         >
             
-            {/* Image Section (Left) */}
-            <div className="md:w-1/3 relative shrink-0">
+            {/* Image Section (Left) - md:w-1/3 forces it to the left 1/3 on desktop */}
+            <div className="md:w-1/3 relative flex-shrink-0">
                 <img 
                     src={venue.mainImageUrl} 
                     alt={venue.name} 
                     className="w-full h-48 md:h-full object-cover rounded-xl transition-transform duration-300 group-hover:scale-[1.03] transform"
-                    onError={(e) => { e.target.onerror = null; e.target.src = "https://placehold.co/400x300/cccccc/000000?text=Image+Unavailable"; }}
+                    // Simple fallback to ensure no broken image icon appears
+                    onError={(e) => { e.target.onerror = null; e.target.src = "https://placehold.co/400x300/1E3A8A/ffffff?text=Image+Not+Loaded"; }}
                 />
                 
-                {/* Heart Icon for Wishlist - Using <button> with stopPropagation */}
+                {/* Heart Icon for Wishlist (uses button to avoid nested <a>) */}
                 <button 
                     className="absolute top-3 right-3 p-2 bg-white rounded-full shadow-md hover:bg-red-500 hover:text-white text-gray-600 transition-all z-10"
                     onClick={handleFavoriteToggle}
@@ -97,14 +104,14 @@ const VenueCard = ({ venue }) => {
                 </button>
             </div>
 
-            {/* Details Section (Right) */}
+            {/* Details Section (Right) - md:w-2/3 takes the remaining 2/3 space on desktop */}
             <div className="md:w-2/3 md:pl-6 pt-4 md:pt-0 flex flex-col justify-between">
                 
-                {/* Top Header */}
+                {/* Top Header & Content */}
                 <div>
                     <div className="flex justify-between items-start mb-2">
                         <p className="text-sm font-medium text-blue-600 flex items-center">
-                            <MapPin size={16} className="mr-1" />
+                            <MapPin size={16} className="mr-1 text-blue-500" />
                             {venue.location}
                         </p>
                         <div className="flex items-center text-sm font-semibold text-yellow-600 bg-yellow-50 px-3 py-1 rounded-full">
@@ -121,15 +128,16 @@ const VenueCard = ({ venue }) => {
                         {venue.description}
                     </p>
                     
-                    {/* Thumbnails */}
+                    {/* Thumbnails (now using stable image placeholders) */}
                     <div className="flex space-x-2 overflow-x-auto pb-2 mb-4">
                         {venue.thumbnails.map((url, index) => (
                             <img 
                                 key={index}
                                 src={url}
                                 alt={`Gallery thumbnail ${index + 1}`}
-                                className="w-16 h-12 object-cover rounded-lg border-2 border-transparent hover:border-blue-500 cursor-pointer shrink-0"
-                                onClick={(e) => e.preventDefault()} // Prevent navigation when clicking thumbnail
+                                className="w-16 h-12 object-cover rounded-lg border-2 border-transparent hover:border-blue-500 cursor-pointer flex-shrink-0"
+                                onError={(e) => { e.target.onerror = null; e.target.src = `https://placehold.co/50x40/d1d5db/000000?text=T${index + 1}`; }}
+                                onClick={(e) => handleThumbnailClick(e, url)}
                             />
                         ))}
                     </div>
@@ -146,7 +154,7 @@ const VenueCard = ({ venue }) => {
                         </p>
                     </div>
                     
-                    {/* FIXED: Changed the nested <a> to a <button> to resolve the hydration error. */}
+                    {/* View Details Button (Must be <button>) */}
                     <button 
                         type="button"
                         className="px-5 py-2 bg-blue-600 text-white font-semibold text-sm rounded-full shadow-md hover:bg-blue-700 transition-colors whitespace-nowrap"
