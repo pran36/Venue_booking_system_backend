@@ -75,11 +75,11 @@ const VenueCard = ({ venue }) => {
         <a 
             href={venueDetailPath} // Mock navigation URL
             onClick={(e) => navigateTo(venueDetailPath, e)} // Use navigateTo to simulate router
-            className="flex flex-col md:flex-row bg-white border border-gray-200 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 mb-6 p-4 md:p-6 group relative block no-underline"
+            className="flex-col md:flex-row bg-white border border-gray-200 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 mb-6 p-4 md:p-6 group relative block no-underline"
         >
             
             {/* Image Section (Left) */}
-            <div className="md:w-1/3 relative flex-shrink-0">
+            <div className="md:w-1/3 relative shrink-0">
                 <img 
                     src={venue.mainImageUrl} 
                     alt={venue.name} 
@@ -128,7 +128,7 @@ const VenueCard = ({ venue }) => {
                                 key={index}
                                 src={url}
                                 alt={`Gallery thumbnail ${index + 1}`}
-                                className="w-16 h-12 object-cover rounded-lg border-2 border-transparent hover:border-blue-500 cursor-pointer flex-shrink-0"
+                                className="w-16 h-12 object-cover rounded-lg border-2 border-transparent hover:border-blue-500 cursor-pointer shrink-0"
                                 onClick={(e) => e.preventDefault()} // Prevent navigation when clicking thumbnail
                             />
                         ))}
@@ -395,7 +395,7 @@ const VenueFilter = ({ filters, setFilters }) => {
                 {/* 1. Location Filter */}
                 <div className="relative" ref={filterRefs.location}>
                     <button 
-                        className={`flex items-center space-x-2 px-6 py-3 border rounded-full bg-white shadow-sm transition duration-150 flex-shrink-0 mb-2 
+                        className={`flex items-center space-x-2 px-6 py-3 border rounded-full bg-white shadow-sm transition duration-150 shrink-0 mb-2 
                             ${activeFilter === 'location' ? 'border-blue-500 ring-2 ring-blue-200' : 'border-gray-300 hover:border-gray-400'}`}
                         onClick={() => handleFilterToggle('location')}
                     >
@@ -415,7 +415,7 @@ const VenueFilter = ({ filters, setFilters }) => {
                 {/* 2. Price Dropdown Filter */}
                 <div className="relative" ref={filterRefs.price}>
                     <button 
-                        className={`flex items-center space-x-1 px-4 py-3 border rounded-full bg-white shadow-sm transition duration-150 flex-shrink-0 mb-2
+                        className={`flex items-center space-x-1 px-4 py-3 border rounded-full bg-white shadow-sm transition duration-150 shrink-0 mb-2
                             ${activeFilter === 'price' ? 'border-blue-500 ring-2 ring-blue-200' : 'border-gray-300 hover:border-gray-400'}`}
                         onClick={() => handleFilterToggle('price')}
                     >
@@ -438,7 +438,7 @@ const VenueFilter = ({ filters, setFilters }) => {
                 {/* 3. Types Dropdown Filter */}
                 <div className="relative" ref={filterRefs.types}>
                     <button 
-                        className={`flex items-center space-x-1 px-4 py-3 border rounded-full bg-white shadow-sm transition duration-150 flex-shrink-0 mb-2
+                        className={`flex items-center space-x-1 px-4 py-3 border rounded-full bg-white shadow-sm transition duration-150 shrink-0 mb-2
                             ${activeFilter === 'types' ? 'border-blue-500 ring-2 ring-blue-200' : 'border-gray-300 hover:border-gray-400'}`}
                         onClick={() => handleFilterToggle('types')}
                     >
@@ -462,7 +462,7 @@ const VenueFilter = ({ filters, setFilters }) => {
 
                 {/* 4. More Filters Button (Opens Modal for Custom Price Range) */}
                 {/* <button 
-                    className="flex items-center space-x-2 px-6 py-3 border border-gray-300 rounded-full bg-white shadow-sm hover:border-gray-400 transition duration-150 flex-shrink-0 mb-2"
+                    className="flex items-center space-x-2 px-6 py-3 border border-gray-300 rounded-full bg-white shadow-sm hover:border-gray-400 transition duration-150 shrink-0 mb-2"
                     onClick={() => handleFilterToggle('more')}
                 >
                     <SlidersHorizontal size={18} className="text-gray-700" />

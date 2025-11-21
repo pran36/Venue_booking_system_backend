@@ -171,7 +171,7 @@ function SearchBarPage() {
         </div>
 
         {/* Search Button */}
-        <button className="bg-black text-white p-3 rounded-full flex items-center justify-center w-12 h-12 ml-2 hover:bg-gray-800 transition-colors flex-shrink-0">
+        <button className="bg-black text-white p-3 rounded-full flex items-center justify-center w-12 h-12 ml-2 hover:bg-gray-800 transition-colors shrink-0">
             <Search size={20} />
         </button>
     </div></form></div>
