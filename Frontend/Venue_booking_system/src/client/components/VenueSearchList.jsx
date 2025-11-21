@@ -81,11 +81,11 @@ const VenueCard = ({ venue }) => {
         <a 
             href={venueDetailPath} 
             onClick={(e) => navigateTo(venueDetailPath, e)} 
-            className="flex flex-col md:flex-row bg-white border border-gray-200 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 mb-6 p-4 md:p-6 group relative block no-underline"
+            className="flex-col md:flex-row bg-white border border-gray-200 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 mb-6 p-4 md:p-6 group relative block no-underline"
         >
             
             {/* Image Section (Left) - md:w-1/3 forces it to the left 1/3 on desktop */}
-            <div className="md:w-1/3 relative flex-shrink-0">
+            <div className="md:w-1/3 relative shrink-0">
                 <img 
                     src={venue.mainImageUrl} 
                     alt={venue.name} 
@@ -135,7 +135,7 @@ const VenueCard = ({ venue }) => {
                                 key={index}
                                 src={url}
                                 alt={`Gallery thumbnail ${index + 1}`}
-                                className="w-16 h-12 object-cover rounded-lg border-2 border-transparent hover:border-blue-500 cursor-pointer flex-shrink-0"
+                                className="w-16 h-12 object-cover rounded-lg border-2 border-transparent hover:border-blue-500 cursor-pointer shrink-0"
                                 onError={(e) => { e.target.onerror = null; e.target.src = `https://placehold.co/50x40/d1d5db/000000?text=T${index + 1}`; }}
                                 onClick={(e) => handleThumbnailClick(e, url)}
                             />
@@ -256,7 +256,7 @@ const MoreFiltersModal = ({ onClose, filters, setFilters }) => {
     };
 
     return (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm p-4">
+        <div className="fixed inset-0 z-100 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm p-4">
             <div className="bg-white w-full max-w-2xl h-auto max-h-[90vh] rounded-xl shadow-2xl p-6 overflow-y-auto">
                 <div className="flex justify-between items-center border-b pb-4 mb-4">
                     <h2 className="text-2xl font-bold text-gray-900">All Filters</h2>
